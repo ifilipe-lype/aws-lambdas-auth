@@ -34,7 +34,7 @@ jobs:
           paths:
             - ./
 
-  build-project:
+  build:
     <<: *base_config
     steps:
       - attach_workspace:
@@ -51,7 +51,7 @@ jobs:
           paths:
             - ./
 
-  run-tests:
+  test:
     <<: *base_config
 
     steps:
@@ -70,12 +70,12 @@ jobs:
       - run: sls deploy
 
 workflows:
-  build-run-tests:
+  build-test:
     jobs:
-      - install-dependencies:
-      - build-project:
-        requires:
-          - install-dependencies
-      - run-tests:
+      - install-dependencies
+      - build:
           requires:
-            - build-project
+            - install-dependencies
+      - test:
+          requires:
+            - build
