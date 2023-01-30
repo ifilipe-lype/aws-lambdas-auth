@@ -70,7 +70,7 @@ jobs:
       - run: sls package -p package && sls deploy --package package
 
 workflows:
-  build-test:
+  build-test-deploy:
     jobs:
       - install-dependencies
       - build:
@@ -79,14 +79,10 @@ workflows:
       - test:
           requires:
             - build
-
-  deploy-production:
-    jobs:
-      - install-dependencies
-      - build:
+      - deploy-production:
           requires:
-            - install-dependencies
-      - test:
-          requires:
-            - build
-      - deploy-production
+            - test
+          filters:
+            branches:
+              only: main
+      
