@@ -64,7 +64,9 @@ jobs:
   deploy-production:
     executor: serverless/default
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/project
+
       - aws-cli/setup
       - serverless/setup
       - run: sls package -p package && sls deploy --package package

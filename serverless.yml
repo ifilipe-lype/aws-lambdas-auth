@@ -1,6 +1,6 @@
 service: auth-functions
 
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
@@ -9,13 +9,13 @@ provider:
 package:
   excludeDevDependencies: true
   patterns:
-    - '!**/**' # ignores all files
+    - "!**/**" # ignores all files
     - dist/** # includes only files from dist dir
 
 functions:
   signIn:
     handler: dist/shared/infra/index.signInHandler
-     events:
+    events:
       - http:
           path: sign-in
           method: post
