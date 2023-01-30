@@ -67,7 +67,7 @@ jobs:
       - checkout
       - aws-cli/setup
       - serverless/setup
-      - run: sls deploy
+      - run: sls package -p package && sls deploy --package package
 
 workflows:
   build-test:
@@ -79,3 +79,14 @@ workflows:
       - test:
           requires:
             - build
+
+  deploy-production:
+    jobs:
+      - install-dependencies
+      - build:
+          requires:
+            - install-dependencies
+      - test:
+          requires:
+            - build
+      - deploy-production
