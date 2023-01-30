@@ -1,0 +1,13 @@
+service: auth-functions
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+
+functions:
+  signIn:
+    handler: dist/shared/infra/index.signInHandler
+    events:
+      # Defines all trigger events here
