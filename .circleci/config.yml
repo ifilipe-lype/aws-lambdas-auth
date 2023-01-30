@@ -69,6 +69,7 @@ jobs:
 
       - aws-cli/setup
       - serverless/setup
+      - run: yarn install --production --cwd dist
       - run: sls package -p package && sls deploy --package package
 
 workflows:

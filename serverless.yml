@@ -11,11 +11,19 @@ package:
   patterns:
     - "!**/**" # ignores all files
     - dist/** # includes only files from dist dir
+    - package.json
 
 functions:
   signIn:
-    handler: dist/shared/infra/index.signInHandler
+    handler: dist/src/shared/infra/index.signInHandler
     events:
       - http:
           path: sign-in
           method: post
+
+  helloWorld:
+    handler: dist/src/shared/infra/index.helloWorld
+    events:
+      - http:
+          path: hello
+          method: get
