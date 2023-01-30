@@ -3,7 +3,7 @@ import { container } from "tsyringe";
 import {
   ISignInParams,
   SignInUseCase,
-} from "auth/usecases/SignInUseCase";
+} from "@auth/usecases/SignInUseCase";
 
 export async function handler(event: ISignInParams) {
   const { email, password } = event;
