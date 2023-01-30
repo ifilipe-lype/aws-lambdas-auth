@@ -3,6 +3,10 @@
  * https://jestjs.io/docs/configuration
  */
 
+import { pathsToModuleNameMapper } from "ts-jest";
+
+import { compilerOptions } from "./tsconfig.json";
+
 export default {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -32,6 +36,12 @@ export default {
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
+
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
+    prefix: "<rootDir>/",
+  }),
+  preset: "ts-jest",
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -153,10 +163,7 @@ export default {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: ["**/?(*.)+(spec|test).ts"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [
