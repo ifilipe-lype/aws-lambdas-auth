@@ -16,17 +16,17 @@ package:
 
 layers:
   nodejs:
-    path: dist/nodejs
+    path: dist
     name: nodejs-${sls:stage}
     description: Shared layer
     compatibleRuntimes:
       - nodejs16.x
     package:
       patterns:
-        - "!!(src/shared/**)"
-        - "node_modules/**"
-        - "src/shared/**"
-        - "package.json"
+        - "!!(nodejs/src/shared/**)"
+        - "nodejs/node_modules/**"
+        - "nodejs/src/shared/**"
+        - "nodejs/package.json"
 
 functions:
   signIn:
