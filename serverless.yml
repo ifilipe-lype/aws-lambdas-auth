@@ -8,30 +8,32 @@ provider:
   runtime: nodejs16.x
 
 package:
-  excludeDevDependencies: false
+  excludeDevDependencies: true
   individually: true
   patterns:
     - "!!(dist/**)"
     - dist/**
 
 layers:
-  shared:
-    path: .
-    name: shared-${sls:stage}
+  node-shared:
+    path: dist
+    name: node-shared-${sls:stage}
     description: Shared layer
     compatibleRuntimes:
       - nodejs16.x
     package:
       patterns:
-        - "!!(dist/**/(shared|node_modules)/**)"
-        - "!dist/yarn.lock"
-        - "!dist/package-lock.json"
+        - "!!(src/shared/**)"
+        - "node_modules/**"
+        - "src/shared/**"
+        - "!yarn.lock"
+        - "!package-lock.json"
 
 functions:
   signIn:
     handler: dist/src/sign-in/infra/SignInLambdaHandler.handler
     layers:
-      - !Ref SharedLambdaLayer
+      - !Ref NodeSharedLambdaLayer
     package:
       patterns:
         - "!!(dist/src/sign-in/**)"
