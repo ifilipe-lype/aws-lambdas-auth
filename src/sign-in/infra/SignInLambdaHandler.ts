@@ -1,9 +1,12 @@
+import "reflect-metadata"
+import "@shared/containers"
+
 import { container } from "tsyringe";
 
 import {
   ISignInParams,
   SignInUseCase,
-} from "@auth/usecases/SignInUseCase";
+} from "../usecases/SignInUseCase";
 
 export async function handler(event: ISignInParams) {
   const { email, password } = event;

@@ -64,13 +64,18 @@ jobs:
   deploy-production:
     executor: serverless/default
     steps:
-      - checkout
+      - attach_workspace:
+          at: ~/project
+
       - aws-cli/setup
       - serverless/setup
+      - run: yarn install --production --cwd dist
+      # Build Lambda's Layer nodejs package
+      - run: cd dist && mkdir tmp && cp -r node_modules package.json src tmp && mv tmp nodejs
       - run: sls deploy
 
 workflows:
-  build-test:
+  build-test-deploy:
     jobs:
       - install-dependencies
       - build:
@@ -79,3 +84,10 @@ workflows:
       - test:
           requires:
             - build
+      - deploy-production:
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
+      

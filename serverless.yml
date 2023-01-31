@@ -1,13 +1,50 @@
 service: auth-functions
 
-frameworkVersion: '3'
+frameworkVersion: "3"
 
 provider:
   name: aws
+  deploymentMethod: direct
   runtime: nodejs16.x
+
+package:
+  excludeDevDependencies: true
+  individually: true
+  patterns:
+    - "!!(dist/**)"
+    - dist/**
+
+layers:
+  nodejs:
+    path: dist
+    name: nodejs-${sls:stage}
+    description: Shared layer
+    compatibleRuntimes:
+      - nodejs16.x
+    package:
+      patterns:
+        - "!!(nodejs/src/shared/**)"
+        - "nodejs/node_modules/**"
+        - "nodejs/src/shared/**"
+        - "nodejs/package.json"
 
 functions:
   signIn:
-    handler: dist/shared/infra/index.signInHandler
+    handler: dist/src/sign-in/infra/SignInLambdaHandler.handler
+    layers:
+      - !Ref NodejsLambdaLayer
+    package:
+      patterns:
+        - "!!(dist/src/sign-in/**)"
+
     events:
-      # Defines all trigger events here
+      - http: POST /sign-in
+
+  helloWorld:
+    handler: dist/src/hello-world/infra/HelloWorldLambdaHandler.handler
+    package:
+      patterns:
+        - "!!(dist/src/hello-world/**)"
+
+    events:
+      - http: GET /hello
