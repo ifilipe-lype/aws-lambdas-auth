@@ -87,7 +87,7 @@ workflows:
       - deploy-production:
           requires:
             - test
-          # filters:
-          #   branches:
-          #     only: main
+          filters:
+            branches:
+              only: main
       
