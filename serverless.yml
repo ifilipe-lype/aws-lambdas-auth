@@ -4,26 +4,46 @@ frameworkVersion: "3"
 
 provider:
   name: aws
+  deploymentMethod: direct
   runtime: nodejs16.x
 
 package:
-  excludeDevDependencies: true
+  excludeDevDependencies: false
+  individually: true
   patterns:
-    - "!**/**" # ignores all files
-    - dist/** # includes only files from dist dir
-    - package.json
+    - "!!(dist/**)"
+    - dist/**
+
+layers:
+  shared:
+    path: .
+    name: shared-${sls:stage}
+    description: Shared layer
+    compatibleRuntimes:
+      - nodejs16.x
+    package:
+      patterns:
+        - "!!(dist/**/(shared|node_modules)/**)"
+        - "!dist/yarn.lock"
+        - "!dist/package-lock.json"
 
 functions:
   signIn:
-    handler: dist/src/shared/infra/index.signInHandler
+    handler: dist/src/sign-in/infra/SignInLambdaHandler.handler
+    layers:
+      - !Ref SharedLambdaLayer
+    package:
+      patterns:
+        - "!!(dist/src/sign-in/**)"
+
     events:
-      - http:
-          path: sign-in
-          method: post
+      - http: POST /sign-in
 
   helloWorld:
-    handler: dist/src/shared/infra/index.helloWorld
+    handler: dist/src/hello-world/infra/HelloWorldLambdaHandler.handler
+    package:
+      patterns:
+        - "!!(dist/src/hello-world/**)"
+
     events:
-      - http:
-          path: hello
-          method: get
+      - http: GET /hello
