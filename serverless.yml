@@ -16,7 +16,7 @@ package:
 
 layers:
   nodejs:
-    path: dist
+    path: dist/nodejs
     name: nodejs-${sls:stage}
     description: Shared layer
     compatibleRuntimes:

@@ -70,6 +70,8 @@ jobs:
       - aws-cli/setup
       - serverless/setup
       - run: yarn install --production --cwd dist
+      # Build Lambda's Layer nodejs package
+      - run: mkdir tmp && cp -r node_modules package.json src tmp && mv tmp nodejs
       - run: sls deploy
 
 workflows:
