@@ -9,8 +9,6 @@
     "noEmitOnError": true,
     "paths": {
       "@tests/*": ["__tests__/*"],
-      "@modules/*": ["src/modules/*"],
-      "@auth/*": ["src/auth/*"],
       "@shared/*": ["src/shared/*"]
     },
     "esModuleInterop": true,
