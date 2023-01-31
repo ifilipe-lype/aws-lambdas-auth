@@ -15,9 +15,9 @@ package:
     - dist/**
 
 layers:
-  node-shared:
+  nodejs:
     path: dist
-    name: node-shared-${sls:stage}
+    name: nodejs-${sls:stage}
     description: Shared layer
     compatibleRuntimes:
       - nodejs16.x
@@ -26,14 +26,13 @@ layers:
         - "!!(src/shared/**)"
         - "node_modules/**"
         - "src/shared/**"
-        - "!yarn.lock"
-        - "!package-lock.json"
+        - "package.json"
 
 functions:
   signIn:
     handler: dist/src/sign-in/infra/SignInLambdaHandler.handler
     layers:
-      - !Ref NodeSharedLambdaLayer
+      - !Ref NodejsLambdaLayer
     package:
       patterns:
         - "!!(dist/src/sign-in/**)"
